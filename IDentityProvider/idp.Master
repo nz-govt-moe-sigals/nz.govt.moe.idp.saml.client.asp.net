@@ -1,0 +1,31 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="idp.master.cs" Inherits="IdentityProviderDemo.idp" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Demo IdP</title>
+    <style type="text/css">
+        div {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body style="width: 100%">
+    <div>
+        <asp:Image runat="server" ID="Branding" ImageUrl="~/images/default-moe-logo.png" AlternateText="OIOSAML.NET"></asp:Image>
+    </div>
+    <form id="form1" runat="server">
+        <div>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+        <hr />
+
+        <div style="'border: 1px solid red">
+            <span style="color: red; font-weight: bold">IMPORTANT: </span>the 'toy' IdP this Demo SP is connected to is only for demo/discovery purposes <i>only</i> and <i>should <b>never</b></i> be used in development or production environments. 
+        </div>
+    </form>
+</body>
+</html>
