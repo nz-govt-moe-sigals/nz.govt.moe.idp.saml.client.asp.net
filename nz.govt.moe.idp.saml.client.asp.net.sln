@@ -6,8 +6,16 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDentityProvider", "IDentityProvider\IDentityProvider.csproj", "{83B75533-8D8E-4470-960E-B575E49393A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceProvider", "ServiceProvider\ServiceProvider.csproj", "{5CABB53A-798E-4725-B755-18A60ECC5D31}"
+	ProjectSection(ProjectDependencies) = postProject
+		{55520059-38BB-48BB-A30E-BFD385293D78} = {55520059-38BB-48BB-A30E-BFD385293D78}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nz.govt.moe.idp.saml.client", "nz.govt.moe.idp.saml.client\nz.govt.moe.idp.saml.client.csproj", "{55520059-38BB-48BB-A30E-BFD385293D78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceProviderMVC", "Description\ServiceProviderMVC.csproj", "{B079DC19-42A1-43D5-8AB6-C677A5BC11D1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{55520059-38BB-48BB-A30E-BFD385293D78} = {55520059-38BB-48BB-A30E-BFD385293D78}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +77,22 @@ Global
 		{55520059-38BB-48BB-A30E-BFD385293D78}.Release64|Any CPU.Build.0 = Release64|Any CPU
 		{55520059-38BB-48BB-A30E-BFD385293D78}.Release64|x64.ActiveCfg = Release64|x64
 		{55520059-38BB-48BB-A30E-BFD385293D78}.Release64|x64.Build.0 = Release64|x64
+		{B079DC19-42A1-43D5-8AB6-C677A5BC11D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B079DC19-42A1-43D5-8AB6-C677A5BC11D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B079DC19-42A1-43D5-8AB6-C677A5BC11D1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B079DC19-42A1-43D5-8AB6-C677A5BC11D1}.Debug|x64.Build.0 = Debug|Any CPU
+		{B079DC19-42A1-43D5-8AB6-C677A5BC11D1}.MSI|Any CPU.ActiveCfg = Release|Any CPU
+		{B079DC19-42A1-43D5-8AB6-C677A5BC11D1}.MSI|Any CPU.Build.0 = Release|Any CPU
+		{B079DC19-42A1-43D5-8AB6-C677A5BC11D1}.MSI|x64.ActiveCfg = Release|Any CPU
+		{B079DC19-42A1-43D5-8AB6-C677A5BC11D1}.MSI|x64.Build.0 = Release|Any CPU
+		{B079DC19-42A1-43D5-8AB6-C677A5BC11D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B079DC19-42A1-43D5-8AB6-C677A5BC11D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B079DC19-42A1-43D5-8AB6-C677A5BC11D1}.Release|x64.ActiveCfg = Release|Any CPU
+		{B079DC19-42A1-43D5-8AB6-C677A5BC11D1}.Release|x64.Build.0 = Release|Any CPU
+		{B079DC19-42A1-43D5-8AB6-C677A5BC11D1}.Release64|Any CPU.ActiveCfg = Release|Any CPU
+		{B079DC19-42A1-43D5-8AB6-C677A5BC11D1}.Release64|Any CPU.Build.0 = Release|Any CPU
+		{B079DC19-42A1-43D5-8AB6-C677A5BC11D1}.Release64|x64.ActiveCfg = Release|Any CPU
+		{B079DC19-42A1-43D5-8AB6-C677A5BC11D1}.Release64|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
