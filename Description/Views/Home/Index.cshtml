@@ -4,8 +4,7 @@
 
 <div>
    <h1>MOE IDP SAML Client Demo</h1>
-    <p class="lead">THis demo....</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <p class="lead">This  is demo....</p>    
 </div>
 
 <div class="row">
@@ -21,7 +20,14 @@
             bounce you out of this Service Provider (SP)s website, off to a remote IdP (look at the urls in your browser).
         </div>
         <li>@Html.ActionLink("Secured Page", "Secured", "Home")</li>
-
     </p>
+</div>
+<div>
+    <h3>Notes:</h3>
+    <li><h5><i>CONFIG/SAML20Federation/ServiceProvider/server name  must end with SLASH(/) is FALSE</i></h5></li>
+    <li><h5><i>Use CONFIG/Federation/SigningCertificate/x509FindType = 'FindBySubjectDistinguishedName' if the findValue is CN name of a certificate</i></h5></li>
+    <li><h5><i>Use CONFIG/Federation/SigningCertificate/x509FindType = 'FindByThumbprint' if the findValue is Thumbprint of a certificate</i></h5></li>
+    <li><h5><i>Give any ID value for the CONFIG/ServiceProvider/id for example nz.govt.nz.idp.saml.client.demo.asp.net</i></h5></li>
+    <li><h5><i>CONFIG/ServiceProvider/id doesnot end with SLASH, Handlers have a slash at the begenning for example CONFIG/ServiceProvider/ServiceEndpoint/localpath='/handlers/login.ashx'</i></h5></li>
 </div>
 

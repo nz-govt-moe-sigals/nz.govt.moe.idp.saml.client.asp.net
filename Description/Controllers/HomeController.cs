@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using nz.govt.moe.idp.saml.client.config;
 
 namespace ServiceProviderMVC.Controllers
 {
@@ -25,16 +26,22 @@ namespace ServiceProviderMVC.Controllers
 
         public ActionResult Setup()
         {
-            ViewBag.Message = "An unsecured page.";
+
+            //ViewBag.Message = "An unsecured page.";
 
             return View();
         }
 
         public ActionResult Secured()
         {
-            ViewBag.Message = "Your secured page.";
+            //ViewBag.Message = "Your secured page.";
 
             return View();
         }
+        public ActionResult Logoff()
+        {
+            Response.Redirect("/Handlers/logout.ashx");
+            return View();
+        } 
     }
 }
