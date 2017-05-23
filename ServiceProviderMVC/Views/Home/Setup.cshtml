@@ -1,0 +1,164 @@
+﻿@using nz.govt.moe.idp.saml.client.config
+
+
+@{
+    bool certificateMissing;
+    try
+    {
+        FederationConfig.GetConfig().SigningCertificate.GetCertificate();
+        certificateMissing = false; // GetCertificate() throws an exception when the certificate can not be retrieved.
+    } catch(Exception e)
+    {
+        certificateMissing = true;
+    }
+}
+@{
+    ViewBag.Title = "About";
+}
+
+
+
+
+<h1>Setup</h1>
+
+
+<h2>Overview</h2>
+<div>
+    The SAML Protocol works by both parties -- the Service Provider (SP) and the Identity Provider (IdP) --
+    establishing Mutual Trust, by exchanging self-describing, signed, xml 'metadata' files that describe
+    a) their endpoints, b) what claims are required/are available.
+</div>
+
+<div>
+    Mutual Trust is established by:
+    <ul>
+        <li>
+            getting an IdP up and running (see the other project in this solution), and
+        </li>
+        <li>extracting the IdP's self-describing metadata file, and </li>
+        <li>
+            installing the IdP's metadata in this SP's '/metadata' folder (the location is defined in this SP's config file),
+            <ul>
+                <li>Note that if you havn't changed anything of the IdP (it's HTTPS, Id, etc.), the metadata that is already installed in the folder is correct.</li>
+            </ul>
+        </li>
+        <li>installed a Publick/Private Key, </li>
+        <li>configuring this SP's thread identity to have access to a cert (in order for it to sign it's own metadata file)</li>
+        <li>configure this SP to run under HTTPS, using the same above cert</li>
+        <li>Gemerating this SP's metadata,</li>
+        <li>Uploading this SP's metadata into the IdP,</li>
+    </ul>
+</div>
+
+<h2>Preparation</h2>
+<div>
+    <h3>Certs</h3>
+    It's true that Visual Studio will hapily create a dev-only self-signed cert with <code>CN=localhost</code>, and register your account (under which Visual Studio/IIS Express is running) to have access to its Private Key.
+    But we strongly recommend against using it in this case.
+    <br/>
+    The reason is that using a cert that is installed for you doesn't teach you the necessary skills
+    to understand how Certs work, which you will need for subsequent deployment to ST/UAT/PROD....so best to bite the bullet now.
+        <br/>
+    The process of creating a self-signed localhost cert is described here:
+    <br/>
+    <a href="http://skysigal.com/it/ad/certificates/howto/create_a_self-signed_ca">Create a Self-Signed Cert</a>
+</div>
+<div>
+    <h3>Install the Cert</h3>
+    The Cert has to be installed using MMC in the Machine Account (not User Account), in both the Root store (in order to be a CA)
+    AND My store (where IIS Express will look for it). the copy in the root needs only the Public Key to be installed, 
+    the Copy in the My account needs both the Public and Private Key installed.
+    <br/>
+    The process is described here:
+    <a href="">...TODO...</a>
+</div>
+<div>
+    <h3>Ensure the IIS Account Can use the Private Key</h3>
+    Use MMC to provide the Account the app is running under (when dev'ing, IIS Express is running under your personal account)
+    access to the key cert's private key.
+</div>
+<div>
+    <h3>SSL</h3>
+    Configure the site to run under SSL, using the above Cert.
+    Instructions for doing so can be found here:
+    <br/>
+    <a href="https://www.codeproject.com/Tips/723357/Enabling-SSL-with-IIS-Express-in-Visual-Studio">Enable SSL with IIS Express</a>.
+</div>
+<div>
+    <h3>Test Run</h3>
+    Assuming the above, you should be able to get the site up and running, under SSL. Not much else yet.
+</div>
+
+<div>
+    <h3>Install the IdP's Metadata</h3>
+    The first part of establishing Mutual Trust is getting an IdP's self-describing metadata xml file
+    and installing in this app's defined location. This SP's web config file is pointing at a folder 
+    called '/metadata'.
+</div>
+<div>
+    <h3>Web Config Configuration</h3>
+    Configure the web.config to point to the IdP, and define the Claims you want the IdP to return.
+    <p />
+    This SP's web.config is heavily annotated to try to make this process as clear as possible.
+    <p/>
+    Still, there are some basic checks we can do right now:
+
+    <div style="margin-top: 1em; ">
+
+        The IDentity Provider (IdP) and the service provider (SP) must exchange metadata in order to establish SAML connections.
+        @if (string.IsNullOrEmpty(SAML20FederationConfig.GetConfig().Endpoints.MetadataLocation))
+        {
+            <p style="width: 50em;">
+                You must add the <b>&lt;IDPEndPoints&gt;</b> tag to the <b>"<%= ConfigurationConstants.SectionNames.SAML20Federation %>"</b> section of the
+                application's configuration file in order to continue.
+            </p>
+        }
+        else if (@certificateMissing)
+        {
+            < div style = "color: Red;" >
+            The specified certificate could not be found. Please correct
+            the certificate information in the "@ConfigurationConstants.SectionNames.Federation" section of the configuration file.
+            </ div >
+        }
+        else
+        {
+            <p>
+                The lcoation to stor the IdP's metadata file is defined as: <b>"@SAML20FederationConfig.GetConfig().Endpoints.MetadataLocation"</b>.<br /><br />
+            </p>
+        }
+    </div>
+
+</div>
+
+<div>
+    <h3>Web Config Faqs</h3>
+
+    Here are some tips for developing the web.cofig:
+    <div>
+        <li>The <code>config/SAML20Federation/ServiceProvider@id</code> value is just a string. Could be 'Foo' if you wanted it to be so. But by convention its an url -- the same url as the actual SP, so that when admins in charge of the IdP are looking at the list of registered SPs the Id gives them a hint as to which site the metadata is describing....</li>
+        <li>The <code>config/SAML20Federation/ServiceProvider@id</code> and <code>config/SAML20Federation/ServiceProvider@server</code> are usually set to the same value (the https url of the SP). But it's important to understand that only the <code>config/SAML20Federation/ServiceProvider@server</code> value is actually a navigable url. </li>
+        <li>The <code>config/SAML20Federation/ServiceProvider@server</code> should not end with a slash, because when it's combined with urls for handlers (eg: <code>CONFIG/ServiceProvider/ServiceEndpoint/localpath="/handlers/signon.ashx"</code>)-- which start with a slash -- you don't want a **double** slash...</li>
+        <li>If for some reason you're working with an admin for an IdP that expects a slash at the end of the Id...and you want to keep Id == server, that's fine...but you have to remove the slash from the beginning of the relative urls of handlers...</li>
+        <li>That said, in this singular instance -- the demo -- there is a benefit that the id value is set to a value that is not the same as the server. The reason is that in the dev environment, the server value must be https://localhost:44306 which is not very descriptive. Hence the server value is set to <code>https://nz.govt.nz.idp.saml.client.demo.asp.net</code></li>
+        <li>Use CONFIG/Federation/SigningCertificate/x509FindType = 'FindBySubjectDistinguishedName' to find the SAML signing cert (as opposed to using 'FindByThumbprint')</li>
+        <li>Yes...the original library actually used SignOn/LogOff for the handler names, rather than SignOn/SignOff, or LogOn/LogOff... but probably not worth the trouble to fix. </li>
+    </div>
+
+</div>
+
+<div>
+    <h3>Generat the SP's Metadata</h3>
+    The metadata of the service provider can be downloaded <a href="/handlers/metadata.ashx"> here </a>
+</div>
+
+<div>
+    <h3>Register this SP's Metadata</h3>
+    Provide the generated SP metadata to the IdP.
+</div>
+
+
+<div>
+    <h3>Give it a go...</h3>
+    Assuming all the above is done correctly, give it a go.
+</div>
+

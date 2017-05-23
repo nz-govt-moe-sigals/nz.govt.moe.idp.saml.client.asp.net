@@ -4,7 +4,7 @@ using nz.govt.moe.idp.saml.client.protocol;
 namespace nz.govt.moe.idp.saml.client.Actions
 {
     /// <summary>
-    /// An implementation of the IAction interface can be called during login and logoff of the 
+    /// An implementation of the IAction interface can be called during signon and signoff of the 
     /// SAML Connector framework in order to perform a specific action.
     /// </summary>
     public interface IAction

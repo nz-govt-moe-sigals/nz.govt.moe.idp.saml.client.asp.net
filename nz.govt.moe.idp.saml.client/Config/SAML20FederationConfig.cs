@@ -458,6 +458,10 @@ namespace nz.govt.moe.idp.saml.client.config
             if (!_fileToEntity.ContainsKey(filename))
             {
                 var metadataDoc = ParseFile(filename);
+                if (metadataDoc == null)
+                {
+                    return;
+                }
                 var endp = FindEndPoint(metadataDoc.EntityId);
                 if (endp == null) // If the endpoint does not exist, create it.
                 {

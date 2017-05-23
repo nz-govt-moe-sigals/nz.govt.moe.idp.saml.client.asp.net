@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div>
+   <h1>MOE IDP SAML Client Demo</h1>
+    <p class="lead">This  is demo....</p>    
+
+    <h2>Overview</h2>
+    This site is just a demo, and as such, does not have much in it.
+    <br />
+    It consists of
+    <ul>
+        <li>pages (one unsecured, and one secured page), </li>
+        <li>a couple of *.ashx pages that are registered in the web.config, to wrap handlers defined in the saml client library </li>
+        <li>2 sections in the webconfig to configure the client library (one to describe itself (the SP), and one describing info about the IdP)</li>
+    </ul>
+
+
+</div>
+
+<div class="row">
+        <h2>When ready...</h2>
+
+
+
+    <p>
+        <h3>Navigation</h3>
+        <div>
+            When you have established Mutual Trust between the IdP and SP, by each party generating a metadata describing itself,
+            and each party saving the other's metadata (see above), you might be ready to navigate to a secured page, which should
+            bounce you out of this Service Provider (SP)s website, off to a remote IdP (look at the urls in your browser).
+        </div>
+        <li>@Html.ActionLink("Secured Page", "Secured", "Home")</li>
+    </p>
+</div>

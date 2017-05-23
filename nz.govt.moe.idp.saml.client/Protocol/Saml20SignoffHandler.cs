@@ -27,12 +27,12 @@ namespace nz.govt.moe.idp.saml.client.protocol
     /// Handles logout for all SAML bindings.
     /// </summary>
     [CustomModificationsAttribute]
-    public class Saml20LogoutHandler : Saml20AbstractEndpointHandler
+    public class Saml20SignoffHandler : Saml20AbstractEndpointHandler
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Saml20LogoutHandler"/> class.
+        /// Initializes a new instance of the <see cref="Saml20SignoffHandler"/> class.
         /// </summary>
-        public Saml20LogoutHandler()
+        public Saml20SignoffHandler()
         {
             // Read the proper redirect url from config
             try

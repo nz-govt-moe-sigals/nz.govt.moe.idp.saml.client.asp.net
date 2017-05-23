@@ -17,7 +17,7 @@ namespace IdentityProviderDemo
     /// <summary>
     /// Handles SLO.
     /// </summary>
-    public class LogoutHandler : BaseHandler
+    public class SignoffHandler : BaseHandler
     {
         private const string LOGOUTINITIATORKEY = "IdentityProviderDemo.LogoutInitiator";
 

@@ -19,6 +19,12 @@
     </UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
     <TargetFrameworkProfile />
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort>44309</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -128,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="images\default-moe-logo.png" />
+    <Content Include="metadata\README.txt" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -162,6 +169,7 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\SignoffHandler.cs" />
     <Compile Include="idp.Master.cs">
       <DependentUpon>idp.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -172,11 +180,8 @@
     <Compile Include="Logic\BaseHandler.cs" />
     <Compile Include="Logic\IDPConfig.cs" />
     <Compile Include="Logic\UserData.cs" />
-    <Compile Include="Logout.ashx.cs">
-      <DependentUpon>Logout.ashx</DependentUpon>
-    </Compile>
-    <Compile Include="MetadataIssuer.ashx.cs">
-      <DependentUpon>MetadataIssuer.ashx</DependentUpon>
+    <Compile Include="Handlers\Metadata.ashx.cs">
+      <DependentUpon>Metadata.ashx</DependentUpon>
     </Compile>
     <Compile Include="config\MetadataUpload.aspx.cs">
       <DependentUpon>MetadataUpload.aspx</DependentUpon>
@@ -185,7 +190,7 @@
     <Compile Include="config\MetadataUpload.aspx.designer.cs">
       <DependentUpon>MetadataUpload.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Signon.ashx.cs">
+    <Compile Include="Handlers\Signon.ashx.cs">
       <DependentUpon>Signon.ashx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -198,7 +203,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Signon.ashx" />
+    <Content Include="Handlers\Signon.ashx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="config\MetadataUpload.aspx" />
@@ -207,19 +212,18 @@
     <Content Include="config\BaseURL.aspx" />
     <Content Include="config\CertificateSelection.aspx" />
     <Content Include="Control.aspx" />
-    <Content Include="MetadataIssuer.ashx" />
+    <Content Include="Handlers\Metadata.ashx" />
     <Content Include="SignonForm.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Default.aspx" />
-    <Content Include="Logout.ashx" />
+    <Content Include="Handlers\Signoff.ashx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="idp.Master" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="metadata\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -246,7 +250,16 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>19999</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:19999/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>

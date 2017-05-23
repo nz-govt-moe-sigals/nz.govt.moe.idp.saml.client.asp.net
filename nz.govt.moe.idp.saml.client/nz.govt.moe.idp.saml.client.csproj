@@ -163,6 +163,8 @@
     <Compile Include="MOE\CustomModificationsAttribute.cs" />
     <Compile Include="Protocol\Saml20CDCIdPReturnPoint.cs" />
     <Compile Include="Protocol\Saml20CDCReader.cs" />
+    <Compile Include="Protocol\Saml20SignoffHandler.cs" />
+    <Compile Include="Protocol\Saml20SignonHandler.cs" />
     <Compile Include="Saml20ArtifactResolve.cs" />
     <Compile Include="Saml20ArtifactResponse.cs" />
     <Compile Include="Saml20AttributeQuery.cs" />
@@ -325,9 +327,7 @@
     </Compile>
     <Compile Include="Protocol\CommonDomainCookie.cs" />
     <Compile Include="Protocol\Saml20AbstractEndpointHandler.cs" />
-    <Compile Include="Protocol\Saml20LogoutHandler.cs" />
     <Compile Include="Protocol\Saml20MetadataHandler.cs" />
-    <Compile Include="Protocol\Saml20SignonHandler.cs" />
     <Compile Include="Utils\ArtifactUtil.cs" />
     <Compile Include="Utils\Serialization.cs" />
     <Compile Include="Utils\TimeRestrictionValidation.cs" />

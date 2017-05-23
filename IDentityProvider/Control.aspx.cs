@@ -26,9 +26,7 @@ namespace IdentityProviderDemo
 
                 baseUrlLabel.Text = "Current server base url (EntityId): " + IDPConfig.ServerBaseUrl;
 
-            }else
-            {
-                SetupPanel.Visible = true;
+                ConfigList.Items.Add(new ListItem("Appears to be correctly configured. Give it a whirl..."));
             }
         }
 
@@ -36,17 +34,23 @@ namespace IdentityProviderDemo
         {
             string dataFolder = ConfigurationManager.AppSettings["IDPDataDirectory"];
 
-            //Check for a valid value
-            if(string.IsNullOrEmpty(dataFolder))
+            if (!Path.IsPathRooted(dataFolder))
             {
-                SetupPanel.Controls.Add(new LiteralControl("Missing \"IDPDataDirectory\" AppSetting value in web.config! Please provide a valid directory name for this value."));
+                dataFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, dataFolder);
+
+            }
+            //Check for a valid value
+            if (string.IsNullOrEmpty(dataFolder))
+            {
+                ConfigList.Items.Add(new ListItem("Missing \"IDPDataDirectory\" AppSetting value in web.config! Please provide a valid directory name for this value."));
+
                 return false;
             }else
             {
                 //Make sure the directory exists
                 if(!Directory.Exists(dataFolder))
                 {
-                    SetupPanel.Controls.Add(new LiteralControl("The directory \"" + dataFolder + "\" specified as the \"IDPDataDirectory\" AppSetting value in web.config does not exist. Please create it and make sure it is writeable."));
+                    ConfigList.Items.Add(new ListItem("The directory \"" + dataFolder + "\" specified as the \"IDPDataDirectory\" AppSetting value in web.config does not exist. Please create it and make sure it is writeable."));
                     return false;
                 }else
                 {
@@ -73,7 +77,7 @@ namespace IdentityProviderDemo
                     
                     if (!canModify)
                     {
-                        SetupPanel.Controls.Add(new LiteralControl("Windows identity running this website (" + WindowsIdentity.GetCurrent().Name + ") does not have \"Modify\" rights on the directory \"" + dataFolder + "\". Please navigate to the folder and choose \"properties\", go to the \"Security\" tab, and make sure that the user \"" + WindowsIdentity.GetCurrent().Name + "\" is in the list and has the \"modify\" permission checked."));
+                        ConfigList.Items.Add(new ListItem("Windows identity running this website (" + WindowsIdentity.GetCurrent().Name + ") does not have \"Modify\" rights on the directory \"" + dataFolder + "\". Please navigate to the folder and choose \"properties\", go to the \"Security\" tab, and make sure that the user \"" + WindowsIdentity.GetCurrent().Name + "\" is in the list and has the \"modify\" permission checked."));
                     }
 
                     return canModify;

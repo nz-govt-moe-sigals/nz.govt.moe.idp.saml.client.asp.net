@@ -16,7 +16,7 @@ namespace IdentityProviderDemo
     /// <summary>
     /// This handler simulates a signin endpoint for an identity provider.
     /// </summary>
-    public class SigninHandler : BaseHandler
+    public class SignonHandler : BaseHandler
     {
         public override void ProcessRequest(HttpContext context)
         {
@@ -26,7 +26,7 @@ namespace IdentityProviderDemo
                     return;
 
                 HttpRedirectBindingParser parser = new HttpRedirectBindingParser(context.Request.Url);
-                Signin(parser);                
+                Signon(parser);                
             }
             
             // Not playing SAML2-Redirect-binding? You're on your own....
@@ -36,7 +36,7 @@ namespace IdentityProviderDemo
         /// Verify the request and transfer the login-page.
         /// </summary>
         /// <param name="parser"></param>
-        private static void Signin(HttpRedirectBindingParser parser)
+        private static void Signon(HttpRedirectBindingParser parser)
         {            
             AuthnRequest req = Serialization.DeserializeFromXmlString<AuthnRequest>(parser.Message);
             
@@ -51,7 +51,7 @@ namespace IdentityProviderDemo
             }
 
             HttpContext.Current.Session["authenticationrequest"] = req;
-            HttpContext.Current.Server.Transfer("SignonForm.aspx");
+            HttpContext.Current.Server.Transfer("../SignonForm.aspx");
         }
     }
 }

@@ -27,20 +27,20 @@ namespace ServiceProviderMVC.Controllers
         public ActionResult Setup()
         {
 
-            //ViewBag.Message = "An unsecured page.";
+            ViewBag.Message = "An unsecured page.";
 
             return View();
         }
 
         public ActionResult Secured()
         {
-            //ViewBag.Message = "Your secured page.";
+            ViewBag.Message = "A secured page.";
 
             return View();
         }
-        public ActionResult Logoff()
+        public ActionResult Signoff()
         {
-            Response.Redirect("/Handlers/logout.ashx");
+            Response.Redirect("/Handlers/signoff.ashx");
             return View();
         } 
     }

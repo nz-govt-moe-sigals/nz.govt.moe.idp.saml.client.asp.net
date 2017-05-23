@@ -74,7 +74,15 @@ namespace IdentityProviderDemo.Logic
         {
             get
             {
-                return Path.Combine(ConfigurationManager.AppSettings["IDPDataDirectory"], _spMetadataDir);
+                var dataFolder = ConfigurationManager.AppSettings["IDPDataDirectory"];
+
+                if (!Path.IsPathRooted(dataFolder))
+                {
+                    dataFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, dataFolder);
+
+                }
+
+                return Path.Combine(dataFolder, _spMetadataDir);
             }
         }
 
@@ -225,7 +233,15 @@ namespace IdentityProviderDemo.Logic
             if(!_configLoaded)
             {
                 _configLoaded = true;
-                string path = Path.Combine(ConfigurationManager.AppSettings["IDPDataDirectory"], _configFileName);
+                var dataFolder = ConfigurationManager.AppSettings["IDPDataDirectory"];
+
+                if (!Path.IsPathRooted(dataFolder))
+                {
+                    dataFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, dataFolder);
+
+                }
+
+                string path = Path.Combine(dataFolder, _configFileName);
                 if (!File.Exists(path))
                     return;
 
@@ -264,7 +280,14 @@ namespace IdentityProviderDemo.Logic
 
         private static void SaveConfig()
         {
-            string path = Path.Combine(ConfigurationManager.AppSettings["IDPDataDirectory"], _configFileName);
+            var dataFolder = ConfigurationManager.AppSettings["IDPDataDirectory"];
+
+            if (!Path.IsPathRooted(dataFolder))
+            {
+                dataFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, dataFolder);
+
+            }
+            string path = Path.Combine(dataFolder, _configFileName);
 
             FileConfig conf = new FileConfig();
             conf.BaseUrl = ServerBaseUrl;

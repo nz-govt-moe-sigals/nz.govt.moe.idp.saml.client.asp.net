@@ -15,13 +15,13 @@ namespace IdentityProviderDemo
     /// <summary>
     /// Generates a signed metadata file.
     /// </summary>
-    public class MetadataIssuer : IHttpHandler
+    public class Metadata : IHttpHandler
     {
 
         public void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "text/xml";
-            context.Response.AddHeader("Content-Disposition", "attachment; filename=\"metadata.xml\"");
+            context.Response.AddHeader("Content-Disposition", "attachment; filename=\"metadata-idp.xml\"");
 
             GenerateMetadataDocument(context);
         }
@@ -39,14 +39,14 @@ namespace IdentityProviderDemo
 
             { // Signon endpoint
                 Endpoint endpoint = new Endpoint();
-                endpoint.Location = IDPConfig.ServerBaseUrl + "Signon.ashx";
+                endpoint.Location = IDPConfig.ServerBaseUrl + "Handlers/Signon.ashx";
                 endpoint.Binding = Saml20Constants.ProtocolBindings.HTTP_Redirect;
                 descriptor.SingleSignOnService = new Endpoint[] { endpoint };
             }
 
-            { // Logout endpoint
+            { // signoff endpoint
                 Endpoint endpoint = new Endpoint();
-                endpoint.Location = IDPConfig.ServerBaseUrl + "Logout.ashx";
+                endpoint.Location = IDPConfig.ServerBaseUrl + "Handlers/Signoff.ashx";
                 endpoint.Binding = Saml20Constants.ProtocolBindings.HTTP_Redirect;
                 descriptor.SingleLogoutService = new Endpoint[] { endpoint };
             }
