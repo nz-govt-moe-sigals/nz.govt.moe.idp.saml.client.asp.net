@@ -139,7 +139,7 @@
         <li>The <code>config/SAML20Federation/ServiceProvider@id</code> and <code>config/SAML20Federation/ServiceProvider@server</code> are usually set to the same value (the https url of the SP). But it's important to understand that only the <code>config/SAML20Federation/ServiceProvider@server</code> value is actually a navigable url. </li>
         <li>The <code>config/SAML20Federation/ServiceProvider@server</code> should not end with a slash, because when it's combined with urls for handlers (eg: <code>CONFIG/ServiceProvider/ServiceEndpoint/localpath="/handlers/signon.ashx"</code>)-- which start with a slash -- you don't want a **double** slash...</li>
         <li>If for some reason you're working with an admin for an IdP that expects a slash at the end of the Id...and you want to keep Id == server, that's fine...but you have to remove the slash from the beginning of the relative urls of handlers...</li>
-        <li>That said, in this singular instance -- the demo -- there is a benefit that the id value is set to a value that is not the same as the server. The reason is that in the dev environment, the server value must be https://localhost:44306 which is not very descriptive. Hence the server value is set to <code>https://nz.govt.nz.idp.saml.client.demo.asp.net</code></li>
+        <li>That said, in this singular instance -- the demo -- there is a benefit that the id value is set to a value that is not the same as the server. The reason is that in the dev environment, the server value must be https://localhost:44306 which is not very descriptive. Hence the server value is set to <code>https://nz.govt.nz.idp.saml.client.localhost.demo</code></li>
         <li>Use CONFIG/Federation/SigningCertificate/x509FindType = 'FindBySubjectDistinguishedName' to find the SAML signing cert (as opposed to using 'FindByThumbprint')</li>
         <li>Yes...the original library actually used SignOn/LogOff for the handler names, rather than SignOn/SignOff, or LogOn/LogOff... but probably not worth the trouble to fix. </li>
     </div>
@@ -159,6 +159,34 @@
 
 <div>
     <h3>Give it a go...</h3>
+    Assuming all the above is done correctly, give it a go.
+</div>
+
+
+<div>
+    <h3>Where next?</h3>
+    Great! You've got a demo app working against a pocket IdP.
+    That's a decent win.
+    But comes the real part.
+    You have to take the learnings you had from this client, and implement those into your target app.
+    Speficically, this means:
+    <ul>
+        <li>In your target Corp.MyApp.Presentation.dll -- where your webapi controllers are -- Nuget in the SAML Client package.</li>
+        <li>Copy the three mandatory sections from this app's web.config into the target app (the config section definitions at the top, and the 
+            SAML20Federation and the Federation sections they point to.</li>
+        <li>Add to your project the Handlers directory (and the 3 handlers within it.) (from this app to your app.)</li>
+        <li>Add the Actions directory (and the custom LogAction within it). Update their namespace (from this app to your app.)</li>
+        <li>Update the webconfig paths to point to the above Handlers and Action </li>
+        <li>Choose an appropriate Id for this App (eg: 'https://myapp.corp.com'. Personally, I'd do it without a trailing slash.)</li>
+        <li>On your dev station, keep the server variable as 'https://localhost:xyz' again, with no slash.</li>
+        <li>On your dev station you already have a self-signed CN=LOCALHOST, so you don't have to do anything yet.</li>
+        <li>At this point you have two choices...As a feel good/make certain your client works, you could copy the Pocket IdP to your target solution and ensure your client works, before engaging with the organisation's IdP. Makes sense...</li>
+        <li>Or you can skip that in order to integrate with the Organisation's IdP directly. </li>
+        <li>In which case you need the Metadata of the IdP.</li>
+
+
+
+    </ul>
     Assuming all the above is done correctly, give it a go.
 </div>
 
