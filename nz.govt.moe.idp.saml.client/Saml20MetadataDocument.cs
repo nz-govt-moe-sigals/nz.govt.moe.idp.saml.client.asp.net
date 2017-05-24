@@ -563,8 +563,18 @@ namespace nz.govt.moe.idp.saml.client
             signedXml.KeyInfo.AddClause(new KeyInfoX509Data(cert, X509IncludeOption.WholeChain));
 
             signedXml.ComputeSignature();
+            string flag = ConfigurationManager.AppSettings["CommentOutSignatureInGeneratedMetadata"];
+            bool tmp;
+            Boolean.TryParse(flag, out tmp);
+
             // Append the computed signature. The signature must be placed as the sibling of the Issuer element.            
-            doc.DocumentElement.InsertBefore(doc.ImportNode(signedXml.GetXml(), true), doc.DocumentElement.FirstChild);
+            if (tmp)
+            {
+                doc.DocumentElement.InsertBefore(doc.CreateComment(signedXml.GetXml().OuterXml), doc.DocumentElement.FirstChild);
+            }else
+            {
+                doc.DocumentElement.InsertBefore(doc.ImportNode(signedXml.GetXml(), true), doc.DocumentElement.FirstChild);
+            }
         }    
         
         /// <summary>
