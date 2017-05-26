@@ -533,13 +533,12 @@ namespace nz.govt.moe.idp.saml.client
             else            
                 doc.PrependChild(doc.CreateXmlDeclaration("1.0", enc.WebName, null));
             
-            if (Sign)
-                SignDocument(doc);
+            SignDocument(doc, Sign);
 
             return doc.OuterXml;
         }        
 
-        private static void SignDocument(XmlDocument doc)
+        private static void SignDocument(XmlDocument doc, bool sign)
         {
             X509Certificate2 cert = FederationConfig.GetConfig().SigningCertificate.GetCertificate();
             
@@ -563,17 +562,21 @@ namespace nz.govt.moe.idp.saml.client
             signedXml.KeyInfo.AddClause(new KeyInfoX509Data(cert, X509IncludeOption.WholeChain));
 
             signedXml.ComputeSignature();
+
             string flag = ConfigurationManager.AppSettings["CommentOutSignatureInGeneratedMetadata"];
-            bool tmp;
-            Boolean.TryParse(flag, out tmp);
+            if (!string.IsNullOrEmpty(flag))
+            {
+                Boolean.TryParse(flag, out sign);
+            }
+
 
             // Append the computed signature. The signature must be placed as the sibling of the Issuer element.            
-            if (tmp)
-            {
-                doc.DocumentElement.InsertBefore(doc.CreateComment(signedXml.GetXml().OuterXml), doc.DocumentElement.FirstChild);
-            }else
+            if (sign)
             {
                 doc.DocumentElement.InsertBefore(doc.ImportNode(signedXml.GetXml(), true), doc.DocumentElement.FirstChild);
+            }else
+            {
+                doc.DocumentElement.InsertBefore(doc.CreateComment(signedXml.GetXml().OuterXml), doc.DocumentElement.FirstChild);
             }
         }    
         

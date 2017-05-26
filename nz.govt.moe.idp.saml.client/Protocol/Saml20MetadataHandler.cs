@@ -42,7 +42,9 @@ namespace nz.govt.moe.idp.saml.client.protocol
             {
                 string param = context.Request.QueryString["sign"];                
                 if (!string.IsNullOrEmpty(param))
-                    sign = Convert.ToBoolean(param);
+                {
+                    bool.TryParse(param, out sign);
+                }
             } catch(FormatException)
             {
                 HandleError(context, Resources.GenericError);
