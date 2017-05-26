@@ -15,6 +15,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E878BC25-32E9-4446-99EB-625C2D1981F7}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
+		_Resources\Certs\SelfSigned Certificates for Demo.7z = _Resources\Certs\SelfSigned Certificates for Demo.7z
 	EndProjectSection
 EndProject
 Global
